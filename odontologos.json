@@ -1,0 +1,20 @@
+[
+    {
+        "idOdontologo": 1,
+        "nombreOdontologo": "Mariano",
+        "apellidoOdontologo": "García",
+        "matriculaOdontologo": "54800"
+    },
+    {
+        "idOdontologo": 2,
+        "nombreOdontologo": "Camila",
+        "apellidoOdontologo": "Nuñez",
+        "matriculaOdontologo": "48564"
+    },
+    {
+        "idOdontologo": 3,
+        "nombreOdontologo": "María",
+        "apellidoOdontologo": "Donatti",
+        "matriculaOdontologo": "50114"
+    }
+]
