@@ -4,13 +4,20 @@ import (
 	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
+	"os"
 
 	"github.com/MechiBakker/BE3-FINAL/cmd/server/handler"
 	"github.com/MechiBakker/BE3-FINAL/internal/odontologo"
 	"github.com/MechiBakker/BE3-FINAL/internal/paciente"
 	"github.com/MechiBakker/BE3-FINAL/internal/turno"
 	"github.com/MechiBakker/BE3-FINAL/pkg/store"
+	"github.com/MechiBakker/BE3-FINAL/pkg/middlaware"
+	"github.com/MechiBakker/BE3-FINAL/docs"
+
+
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title Api de turnos Odontologicos
@@ -46,6 +53,8 @@ func main() {
 	turnoHandler := handler.NewTurnoHandler(serviceTurno)
 
 	engine := gin.Default()
+	docs.SwaggerInfo.Host = os.Getenv("HOST")
+	engine.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	engine.SetTrustedProxies([]string{"127.0.0.1"})
 
@@ -58,6 +67,10 @@ func main() {
 		odontologos.PUT(":idOdontologo", odontologoHandler.UpdateOdontologo())
 		odontologos.PATCH(":idOdontologo", odontologoHandler.UpdateOdontologoForField())
 		odontologos.DELETE(":idOdontologo", odontologoHandler.DeleteOdontologo())
+		odontologos.POST("", middleware.Authentication(), odontologoHandler.Post())
+		odontologos.DELETE(":id", middleware.Authentication(), odontologoHandler.Delete())
+		odontologos.PATCH(":id", middleware.Authentication(), odontologoHandler.Patch())
+		odontologos.PUT(":id", middleware.Authentication(), odontologoHandler.Put())
 	}
 
 	pacientes := engine.Group("/api/v1/pacientes")
@@ -67,6 +80,10 @@ func main() {
 		pacientes.PUT(":idPaciente", pacienteHandler.UpdatePaciente())
 		pacientes.PATCH(":idPaciente", pacienteHandler.UpdatePacienteForField())
 		pacientes.DELETE(":idPaciente", pacienteHandler.DeletePaciente())
+		pacientes.POST("", middleware.Authentication(), pacienteHandler.Post())
+		pacientes.DELETE(":id", middleware.Authentication(), pacienteHandler.Delete())
+		pacientes.PATCH(":id", middleware.Authentication(), pacienteHandler.Patch())
+		pacientes.PUT(":id", middleware.Authentication(), pacienteHandler.Put())
 
 	}
 
@@ -77,6 +94,10 @@ func main() {
 		turnos.PUT(":idTurno", turnoHandler.UpdateTurno())
 		turnos.PATCH(":idTurno", turnoHandler.UpdateTurnoForField())
 		turnos.DELETE(":idTurno", turnoHandler.DeleteTurno())
+		turnos.POST("", middleware.Authentication(), turnoHandler.Post())
+		turnos.DELETE(":id", middleware.Authentication(), turnoHandler.Delete())
+		turnos.PATCH(":id", middleware.Authentication(), turnoHandler.Patch())
+		turnos.PUT(":id", middleware.Authentication(), turnoHandler.Put())
 	}
 
 	engine.Run(":8080")
