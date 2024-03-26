@@ -142,7 +142,7 @@ func (h *pacienteHandler) UpdatePaciente() gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param idPaciente path int true "ID del paciente a actualizar"
-// @Param paciente body UpdateRequest true "Campos a actualizar"
+// @Param paciente body Request true "Campos a actualizar"
 // @Success 200 {object} domain.Paciente "Paciente actualizado correctamente"
 // @Failure 400 {object} ErrorResponse "Error de solicitud"
 // @Failure 404 {object} ErrorResponse "No se encontró el ID indicado"

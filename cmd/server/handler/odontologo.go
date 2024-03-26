@@ -13,7 +13,15 @@ import (
 type odontologoHandler struct {
 	s odontologo.Service
 }
-
+type ErrorResponse struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+type Request struct {
+	NombreOdontologo    string `json:"nombreOdontologo,omitempty"`
+	ApellidoOdontologo  string `json:"apellidoOdontologo,omitempty"`
+	MatriculaOdontologo string `json:"matriculaOdontologo,omitempty"`
+}
 func NewOdontologoHandler(s odontologo.Service) *odontologoHandler {
 	return &odontologoHandler{
 		s: s,
@@ -35,6 +43,7 @@ func (h *odontologoHandler) CreateOdontologo() gin.HandlerFunc {
 		var odontologo domain.Odontologo
 
 		err := c.ShouldBindJSON(&odontologo)
+	
 		if err != nil {
 			web.Failure(c, 400, errors.New("Invalid Json"))
 			return
@@ -63,6 +72,7 @@ func (h *odontologoHandler) GetOdontologoByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("idOdontologo")
 		id, err := strconv.Atoi(idParam)
+
 		if err != nil {
 			web.Failure(c, 400, errors.New("ID inválido"))
 			return
@@ -101,6 +111,7 @@ func (h *odontologoHandler) UpdateOdontologo() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("idOdontologo")
 		id, err := strconv.Atoi(idParam)
+	
 		if err != nil {
 			web.Failure(c, 400, errors.New("ID inválido"))
 			return
@@ -136,7 +147,7 @@ func (h *odontologoHandler) UpdateOdontologo() gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param idOdontologo path int true "ID del odontólogo a actualizar"
-// @Param odontologo body UpdateRequest true "Campos a actualizar"
+// @Param odontologo body Request true "Campos a actualizar"
 // @Success 200 {object} domain.Odontologo "Odontólogo actualizado correctamente"
 // @Failure 400 {object} ErrorResponse "Error de solicitud"
 // @Failure 404 {object} ErrorResponse "No se encontró el ID indicado"
@@ -152,6 +163,7 @@ func (h *odontologoHandler) UpdateOdontologoForField() gin.HandlerFunc {
 		var r Request
 		idParam := c.Param("idOdontologo")
 		id, err := strconv.Atoi(idParam)
+	
 		if err != nil {
 			web.Failure(c, 400, errors.New("ID inválido"))
 			return
@@ -196,6 +208,7 @@ func (h *odontologoHandler) DeleteOdontologo() gin.HandlerFunc {
 
 		idParam := c.Param("idOdontologo")
 		id, err := strconv.Atoi(idParam)
+
 		if err != nil {
 			web.Failure(c, 400, errors.New("ID inválido"))
 			return

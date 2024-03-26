@@ -140,7 +140,7 @@ func (h *turnoHandler) UpdateTurno() gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param idTurno path int true "ID del turno a actualizar"
-// @Param body body turnoHandler.UpdateTurnoForFieldRequest true "Campos a actualizar del turno"
+// @Param body body Request true "Campos a actualizar del turno"
 // @Success 200 {object} domain.Turno "Turno actualizado"
 // @Failure 400 {object} ErrorResponse "Error de solicitud"
 // @Router /turnos/{idTurno} [patch]
