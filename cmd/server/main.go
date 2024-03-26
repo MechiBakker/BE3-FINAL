@@ -13,6 +13,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @title Api de turnos Odontologicos
+// @version 1.0
+// @description Reserva de turnos odontológicos
+// @termsOfService https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
+// @contact.name API Support
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
 
 	db, err := sql.Open("mysql", "root:root@/my_db")
