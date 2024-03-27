@@ -11,7 +11,7 @@ import (
 	"github.com/MechiBakker/BE3-FINAL/internal/paciente"
 	"github.com/MechiBakker/BE3-FINAL/internal/turno"
 	"github.com/MechiBakker/BE3-FINAL/pkg/store"
-	"github.com/MechiBakker/BE3-FINAL/pkg/middlaware"
+	"github.com/MechiBakker/BE3-FINAL/pkg/middleware"
 	"github.com/MechiBakker/BE3-FINAL/docs"
 
 
@@ -51,8 +51,11 @@ func main() {
 	repoTurno := turno.NewRepository(storage)
 	serviceTurno := turno.NewService(repoTurno)
 	turnoHandler := handler.NewTurnoHandler(serviceTurno)
-
+	
 	engine := gin.Default()
+	engine.Use(gin.Recovery())
+	engine.Use(middleware.Logger())
+
 	docs.SwaggerInfo.Host = os.Getenv("HOST")
 	engine.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
