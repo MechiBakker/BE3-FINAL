@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 definitions:
   domain.Odontologo:
     properties:
@@ -511,4 +512,9 @@ paths:
       summary: Actualizar turno
       tags:
       - Turnos
+=======
+info:
+  contact: {}
+paths: {}
+>>>>>>> main
 swagger: "2.0"

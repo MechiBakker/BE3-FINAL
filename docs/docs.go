@@ -9,6 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
+<<<<<<< HEAD
         "termsOfService": "https://developers.ctd.com.ar/es_ar/terminos-y-condiciones",
         "contact": {
             "name": "API Support"
@@ -17,10 +18,14 @@ const docTemplate = `{
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
+=======
+        "contact": {},
+>>>>>>> main
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
+<<<<<<< HEAD
     "paths": {
         "/odontologos": {
             "post": {
@@ -778,16 +783,28 @@ const docTemplate = `{
             }
         }
     }
+=======
+    "paths": {}
+>>>>>>> main
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
+<<<<<<< HEAD
 	Version:          "1.0",
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Api de turnos Odontologicos",
 	Description:      "Reserva de turnos odontológicos",
+=======
+	Version:          "",
+	Host:             "",
+	BasePath:         "",
+	Schemes:          []string{},
+	Title:            "",
+	Description:      "",
+>>>>>>> main
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

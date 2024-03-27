@@ -1,6 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
+<<<<<<< HEAD
         "description": "Reserva de turnos odontológicos",
         "title": "Api de turnos Odontologicos",
         "termsOfService": "https://developers.ctd.com.ar/es_ar/terminos-y-condiciones",
@@ -770,4 +771,9 @@
             }
         }
     }
+=======
+        "contact": {}
+    },
+    "paths": {}
+>>>>>>> main
 }

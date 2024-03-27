@@ -1,4 +1,4 @@
-module github.com/lagringatati/Final_BE3_GO
+module github.com/MechiBakker/BE3-FINAL
 
 go 1.21
 
