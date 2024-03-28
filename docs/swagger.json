@@ -14,20 +14,23 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/v1/odontologos": {
+        "/odontologos": {
             "post": {
                 "description": "Crea un nuevo odontólogo con los datos proporcionados",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Odontologos"
+                    "Odontólogos"
                 ],
                 "summary": "Crear un nuevo odontólogo",
                 "parameters": [
                     {
                         "description": "Datos del odontólogo a crear",
-                        "name": "body",
+                        "name": "odontologo",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -36,31 +39,34 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Odontólogo creado correctamente",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Odontologo"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
             }
         },
-        "/api/v1/odontologos/{idOdontologo}": {
+        "/odontologos/{idOdontologo}": {
             "get": {
-                "description": "Obtiene un odontologo por su ID",
+                "description": "Obtiene un odontólogo por su ID",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Odontologos"
+                    "Odontólogos"
                 ],
-                "summary": "Obtener un odontologo por ID",
+                "summary": "Obtener un odontólogo por ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -72,26 +78,35 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Odontólogo obtenido correctamente",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Odontologo"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el ID indicado",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
             },
             "put": {
                 "description": "Actualiza un odontólogo por su ID con todos los campos",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Odontologos"
+                    "Odontólogos"
                 ],
                 "summary": "Actualizar un odontólogo por ID",
                 "parameters": [
@@ -104,7 +119,7 @@
                     },
                     {
                         "description": "Datos del odontólogo a actualizar",
-                        "name": "body",
+                        "name": "odontologo",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -114,26 +129,41 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Odontólogo actualizado correctamente",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Odontologo"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el ID indicado",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Error al actualizar el odontólogo",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
             },
             "delete": {
                 "description": "Elimina un odontólogo por su ID",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Odontologos"
+                    "Odontólogos"
                 ],
                 "summary": "Eliminar un odontólogo por ID",
                 "parameters": [
@@ -147,26 +177,35 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Odontólogo eliminado correctamente",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "type": "string"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el ID indicado",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
             },
             "patch": {
                 "description": "Actualiza parcialmente un odontólogo por su ID con campos específicos",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Odontologos"
+                    "Odontólogos"
                 ],
                 "summary": "Actualizar parcialmente un odontólogo por ID",
                 "parameters": [
@@ -179,7 +218,7 @@
                     },
                     {
                         "description": "Campos a actualizar",
-                        "name": "body",
+                        "name": "odontologo",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -189,21 +228,33 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Odontólogo actualizado correctamente",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Odontologo"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el ID indicado",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Error al actualizar el odontólogo",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
             }
         },
-        "/api/v1/pacientes": {
+        "/pacientes": {
             "post": {
                 "description": "Crea un nuevo paciente",
                 "consumes": [
@@ -228,22 +279,22 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Paciente creado correctamente",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Paciente"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
             }
         },
-        "/api/v1/pacientes/{idPaciente}": {
+        "/pacientes/{idPaciente}": {
             "get": {
                 "description": "Obtiene un paciente por su ID",
                 "consumes": [
@@ -267,15 +318,21 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Paciente obtenido correctamente",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Paciente"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el paciente",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
@@ -312,15 +369,27 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Paciente actualizado correctamente",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Paciente"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el ID indicado",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Error al actualizar el paciente",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
@@ -348,15 +417,21 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "El paciente ha sido correctamente eliminado",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "type": "string"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el ID indicado",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
@@ -393,21 +468,33 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Paciente actualizado correctamente",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Paciente"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el ID indicado",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Error al actualizar el paciente",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
             }
         },
-        "/api/v1/turnos/{idTurno}": {
+        "/turnos/{idTurno}": {
             "get": {
                 "description": "Retorna un turno dado su ID",
                 "consumes": [
@@ -431,15 +518,21 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Turno obtenido",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Turno"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el turno",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
@@ -476,15 +569,15 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Turno actualizado",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Turno"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
@@ -512,15 +605,15 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Turno obtenido",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Turno"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
@@ -548,15 +641,15 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "El turno ha sido correctamente eliminado",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "type": "string"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
@@ -593,15 +686,15 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Turno actualizado",
                         "schema": {
-                            "$ref": "#/definitions/web.response"
+                            "$ref": "#/definitions/domain.Turno"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Error de solicitud",
                         "schema": {
-                            "$ref": "#/definitions/web.errorResponse"
+                            "$ref": "#/definitions/handler.ErrorResponse"
                         }
                     }
                 }
@@ -687,6 +780,17 @@
                 }
             }
         },
+        "handler.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "handler.Request": {
             "type": "object",
             "properties": {
@@ -698,32 +802,6 @@
                 },
                 "nombreOdontologo": {
                     "type": "string"
-                }
-            }
-        },
-        "web.errorResponse": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                }
-            }
-        },
-        "web.response": {
-            "type": "object",
-            "properties": {
-                "data": {},
-                "message": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
                 }
             }
         }

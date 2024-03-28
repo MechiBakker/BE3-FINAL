@@ -4,7 +4,6 @@ import (
 	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
-	"os"
 
 	"github.com/MechiBakker/BE3-FINAL/cmd/server/handler"
 	"github.com/MechiBakker/BE3-FINAL/internal/odontologo"
@@ -13,7 +12,7 @@ import (
 	"github.com/MechiBakker/BE3-FINAL/pkg/store"
 	"github.com/MechiBakker/BE3-FINAL/pkg/middleware"
 	"github.com/MechiBakker/BE3-FINAL/cmd/server/docs"
-
+	"log"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -28,10 +27,9 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
-
-	db, err := sql.Open("mysql", "root:root@/my_db")
+	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/turnos_odontologia")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	err = db.Ping()
 	if err != nil {
@@ -55,7 +53,7 @@ func main() {
 	engine.Use(gin.Recovery())
 	engine.Use(middleware.Logger())
 
-	docs.SwaggerInfo.Host = os.Getenv("HOST")
+	docs.SwaggerInfo.Host = "localhost:8080"
 	engine.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	engine.SetTrustedProxies([]string{"127.0.0.1"})
@@ -66,40 +64,30 @@ func main() {
 	{
 		odontologos.POST("", odontologoHandler.CreateOdontologo())
 		odontologos.GET(":idOdontologo", odontologoHandler.GetOdontologoByID())
-		odontologos.PUT(":idOdontologo", odontologoHandler.UpdateOdontologo())
-		odontologos.PATCH(":idOdontologo", odontologoHandler.UpdateOdontologoForField())
-		odontologos.DELETE(":idOdontologo", odontologoHandler.DeleteOdontologo())
-		// odontologos.POST("", middleware.Authentication(), odontologoHandler.Post())
-		// odontologos.DELETE(":id", middleware.Authentication(), odontologoHandler.Delete())
-		// odontologos.PATCH(":id", middleware.Authentication(), odontologoHandler.Patch())
-		// odontologos.PUT(":id", middleware.Authentication(), odontologoHandler.Put())
+		odontologos.PUT(":idOdontologo", middleware.Authentication(),odontologoHandler.UpdateOdontologo())
+		odontologos.PATCH(":idOdontologo", middleware.Authentication(),odontologoHandler.UpdateOdontologoForField())
+		odontologos.DELETE(":idOdontologo", middleware.Authentication(),odontologoHandler.DeleteOdontologo())
+	
 	}
 
 	pacientes := engine.Group("/api/v1/pacientes")
 	{
-		pacientes.POST("", pacienteHandler.CreatePaciente())
+		pacientes.POST("", middleware.Authentication(),pacienteHandler.CreatePaciente())
 		pacientes.GET(":idPaciente", pacienteHandler.GetPacienteByID())
-		pacientes.PUT(":idPaciente", pacienteHandler.UpdatePaciente())
-		pacientes.PATCH(":idPaciente", pacienteHandler.UpdatePacienteForField())
-		pacientes.DELETE(":idPaciente", pacienteHandler.DeletePaciente())
-		// pacientes.POST("", middleware.Authentication(), pacienteHandler.Post())
-		// pacientes.DELETE(":id", middleware.Authentication(), pacienteHandler.Delete())
-		// pacientes.PATCH(":id", middleware.Authentication(), pacienteHandler.Patch())
-		// pacientes.PUT(":id", middleware.Authentication(), pacienteHandler.Put())
+		pacientes.PUT(":idPaciente", middleware.Authentication(),pacienteHandler.UpdatePaciente())
+		pacientes.PATCH(":idPaciente", middleware.Authentication(),pacienteHandler.UpdatePacienteForField())
+		pacientes.DELETE(":idPaciente", middleware.Authentication(),pacienteHandler.DeletePaciente())
+	
 
 	}
 
 	turnos := engine.Group("/api/v1/turnos")
 	{
-		turnos.POST("", turnoHandler.CreateTurno())
+		turnos.POST("", middleware.Authentication(),turnoHandler.CreateTurno())
 		turnos.GET(":idTurno", turnoHandler.GetTurnoByID())
-		turnos.PUT(":idTurno", turnoHandler.UpdateTurno())
-		turnos.PATCH(":idTurno", turnoHandler.UpdateTurnoForField())
-		turnos.DELETE(":idTurno", turnoHandler.DeleteTurno())
-		// turnos.POST("", middleware.Authentication(), turnoHandler.Post())
-		// turnos.DELETE(":id", middleware.Authentication(), turnoHandler.Delete())
-		// turnos.PATCH(":id", middleware.Authentication(), turnoHandler.Patch())
-		// turnos.PUT(":id", middleware.Authentication(), turnoHandler.Put())
+		turnos.PUT(":idTurno", middleware.Authentication(),turnoHandler.UpdateTurno())
+		turnos.PATCH(":idTurno", middleware.Authentication(),turnoHandler.UpdateTurnoForField())
+		turnos.DELETE(":idTurno", middleware.Authentication(),turnoHandler.DeleteTurno())
 	}
 
 	engine.Run(":8080")

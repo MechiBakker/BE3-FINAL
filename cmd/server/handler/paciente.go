@@ -27,9 +27,9 @@ func NewPacienteHandler(s paciente.Service) *pacienteHandler {
 // @Accept json
 // @Produce json
 // @Param paciente body domain.Paciente true "Datos del paciente a crear"
-// @Success 201 {object} domain.Paciente "Paciente creado correctamente"
-// @Failure 400 {object} ErrorResponse "Error de solicitud"
-// @Router /pacientes [post]
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/pacientes [post]
 func (h *pacienteHandler) CreatePaciente() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var paciente domain.Paciente
@@ -55,10 +55,9 @@ func (h *pacienteHandler) CreatePaciente() gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param idPaciente path int true "ID del paciente a obtener"
-// @Success 200 {object} domain.Paciente "Paciente obtenido correctamente"
-// @Failure 400 {object} ErrorResponse "Error de solicitud"
-// @Failure 404 {object} ErrorResponse "No se encontró el paciente"
-// @Router /pacientes/{idPaciente} [get]
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/pacientes/{idPaciente} [get]
 func (h *pacienteHandler) GetPacienteByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("idPaciente")
@@ -92,11 +91,9 @@ func validateFieldsPaciente(paciente *domain.Paciente) (bool, error) {
 // @Produce json
 // @Param idPaciente path int true "ID del paciente a actualizar"
 // @Param paciente body domain.Paciente true "Datos del paciente a actualizar"
-// @Success 200 {object} domain.Paciente "Paciente actualizado correctamente"
-// @Failure 400 {object} ErrorResponse "Error de solicitud"
-// @Failure 404 {object} ErrorResponse "No se encontró el ID indicado"
-// @Failure 409 {object} ErrorResponse "Error al actualizar el paciente"
-// @Router /pacientes/{idPaciente} [put]
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/pacientes/{idPaciente} [put]
 func (h *pacienteHandler) UpdatePaciente() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
@@ -109,10 +106,6 @@ func (h *pacienteHandler) UpdatePaciente() gin.HandlerFunc {
 		_, err = h.s.GetPacienteByID(id)
 		if err != nil {
 			web.Failure(c, 404, errors.New("No se ha encontrado el ID indicado"))
-			return
-		}
-		if err != nil {
-			web.Failure(c, 409, err)
 			return
 		}
 		var paciente domain.Paciente
@@ -143,11 +136,9 @@ func (h *pacienteHandler) UpdatePaciente() gin.HandlerFunc {
 // @Produce json
 // @Param idPaciente path int true "ID del paciente a actualizar"
 // @Param paciente body Request true "Campos a actualizar"
-// @Success 200 {object} domain.Paciente "Paciente actualizado correctamente"
-// @Failure 400 {object} ErrorResponse "Error de solicitud"
-// @Failure 404 {object} ErrorResponse "No se encontró el ID indicado"
-// @Failure 409 {object} ErrorResponse "Error al actualizar el paciente"
-// @Router /pacientes/{idPaciente} [patch]
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/pacientes/{idPaciente} [patch]
 func (h *pacienteHandler) UpdatePacienteForField() gin.HandlerFunc {
 	type Request struct {
 		NombrePaciente      string `json:"nombrePaciente,omitempty"`
@@ -197,10 +188,9 @@ func (h *pacienteHandler) UpdatePacienteForField() gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param idPaciente path int true "ID del paciente a eliminar"
-// @Success 200 {string} string "El paciente ha sido correctamente eliminado"
-// @Failure 400 {object} ErrorResponse "Error de solicitud"
-// @Failure 404 {object} ErrorResponse "No se encontró el ID indicado"
-// @Router /pacientes/{idPaciente} [delete]
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/pacientes/{idPaciente} [delete]
 func (h *pacienteHandler) DeletePaciente() gin.HandlerFunc {
 
 	return func(c *gin.Context) {

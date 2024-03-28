@@ -53,6 +53,13 @@ definitions:
     - idOdontologo
     - idPaciente
     type: object
+  handler.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
   handler.Request:
     properties:
       apellidoOdontologo:
@@ -61,23 +68,6 @@ definitions:
         type: string
       nombreOdontologo:
         type: string
-    type: object
-  web.errorResponse:
-    properties:
-      code:
-        type: string
-      message:
-        type: string
-      status:
-        type: integer
-    type: object
-  web.response:
-    properties:
-      data: {}
-      message:
-        type: string
-      status:
-        type: integer
     type: object
 info:
   contact:
@@ -90,32 +80,36 @@ info:
   title: Api de turnos Odontologicos
   version: "1.0"
 paths:
-  /api/v1/odontologos:
+  /odontologos:
     post:
+      consumes:
+      - application/json
       description: Crea un nuevo odontólogo con los datos proporcionados
       parameters:
       - description: Datos del odontólogo a crear
         in: body
-        name: body
+        name: odontologo
         required: true
         schema:
           $ref: '#/definitions/domain.Odontologo'
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Odontólogo creado correctamente
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Odontologo'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Crear un nuevo odontólogo
       tags:
-      - Odontologos
-  /api/v1/odontologos/{idOdontologo}:
+      - Odontólogos
+  /odontologos/{idOdontologo}:
     delete:
+      consumes:
+      - application/json
       description: Elimina un odontólogo por su ID
       parameters:
       - description: ID del odontólogo a eliminar
@@ -127,18 +121,24 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Odontólogo eliminado correctamente
           schema:
-            $ref: '#/definitions/web.response'
+            type: string
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Eliminar un odontólogo por ID
       tags:
-      - Odontologos
+      - Odontólogos
     get:
-      description: Obtiene un odontologo por su ID
+      consumes:
+      - application/json
+      description: Obtiene un odontólogo por su ID
       parameters:
       - description: ID del odontólogo a obtener
         in: path
@@ -149,17 +149,23 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Odontólogo obtenido correctamente
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Odontologo'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
-      summary: Obtener un odontologo por ID
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Obtener un odontólogo por ID
       tags:
-      - Odontologos
+      - Odontólogos
     patch:
+      consumes:
+      - application/json
       description: Actualiza parcialmente un odontólogo por su ID con campos específicos
       parameters:
       - description: ID del odontólogo a actualizar
@@ -169,7 +175,7 @@ paths:
         type: integer
       - description: Campos a actualizar
         in: body
-        name: body
+        name: odontologo
         required: true
         schema:
           $ref: '#/definitions/handler.Request'
@@ -177,17 +183,27 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Odontólogo actualizado correctamente
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Odontologo'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Error al actualizar el odontólogo
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Actualizar parcialmente un odontólogo por ID
       tags:
-      - Odontologos
+      - Odontólogos
     put:
+      consumes:
+      - application/json
       description: Actualiza un odontólogo por su ID con todos los campos
       parameters:
       - description: ID del odontólogo a actualizar
@@ -197,7 +213,7 @@ paths:
         type: integer
       - description: Datos del odontólogo a actualizar
         in: body
-        name: body
+        name: odontologo
         required: true
         schema:
           $ref: '#/definitions/domain.Odontologo'
@@ -205,17 +221,25 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Odontólogo actualizado correctamente
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Odontologo'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Error al actualizar el odontólogo
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Actualizar un odontólogo por ID
       tags:
-      - Odontologos
-  /api/v1/pacientes:
+      - Odontólogos
+  /pacientes:
     post:
       consumes:
       - application/json
@@ -230,18 +254,18 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Paciente creado correctamente
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Paciente'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Crear un nuevo paciente
       tags:
       - Pacientes
-  /api/v1/pacientes/{idPaciente}:
+  /pacientes/{idPaciente}:
     delete:
       consumes:
       - application/json
@@ -256,13 +280,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: El paciente ha sido correctamente eliminado
           schema:
-            $ref: '#/definitions/web.response'
+            type: string
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Eliminar un paciente por ID
       tags:
       - Pacientes
@@ -280,13 +308,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Paciente obtenido correctamente
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Paciente'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el paciente
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Obtener un paciente por ID
       tags:
       - Pacientes
@@ -310,13 +342,21 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Paciente actualizado correctamente
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Paciente'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Error al actualizar el paciente
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Actualizar parcialmente un paciente por ID
       tags:
       - Pacientes
@@ -340,17 +380,25 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Paciente actualizado correctamente
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Paciente'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Error al actualizar el paciente
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Actualizar un paciente por ID
       tags:
       - Pacientes
-  /api/v1/turnos/{idTurno}:
+  /turnos/{idTurno}:
     delete:
       consumes:
       - application/json
@@ -365,13 +413,13 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: El turno ha sido correctamente eliminado
           schema:
-            $ref: '#/definitions/web.response'
+            type: string
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Eliminar un turno
       tags:
       - Turnos
@@ -389,13 +437,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Turno obtenido
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Turno'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el turno
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Obtener turno por ID
       tags:
       - Turnos
@@ -419,13 +471,13 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Turno actualizado
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Turno'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Actualizar campos específicos de un turno
       tags:
       - Turnos
@@ -443,13 +495,13 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Turno obtenido
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Turno'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Obtener turno por ID
       tags:
       - Turnos
@@ -473,13 +525,13 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Turno actualizado
           schema:
-            $ref: '#/definitions/web.response'
+            $ref: '#/definitions/domain.Turno'
         "400":
-          description: Bad Request
+          description: Error de solicitud
           schema:
-            $ref: '#/definitions/web.errorResponse'
+            $ref: '#/definitions/handler.ErrorResponse'
       summary: Actualizar turno
       tags:
       - Turnos
