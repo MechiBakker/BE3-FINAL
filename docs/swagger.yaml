@@ -1,4 +1,538 @@
+definitions:
+  domain.Odontologo:
+    properties:
+      apellidoOdontologo:
+        type: string
+      idOdontologo:
+        type: integer
+      matriculaOdontologo:
+        type: string
+      nombreOdontologo:
+        type: string
+    required:
+    - apellidoOdontologo
+    - matriculaOdontologo
+    - nombreOdontologo
+    type: object
+  domain.Paciente:
+    properties:
+      apellidoPaciente:
+        type: string
+      dniPaciente:
+        type: string
+      domicilioPaciente:
+        type: string
+      fechaDeAltaPaciente:
+        type: string
+      idPaciente:
+        type: integer
+      nombrePaciente:
+        type: string
+    required:
+    - apellidoPaciente
+    - dniPaciente
+    - domicilioPaciente
+    - fechaDeAltaPaciente
+    - nombrePaciente
+    type: object
+  domain.Turno:
+    properties:
+      descripcionTurno:
+        type: string
+      fechaTurno:
+        type: string
+      idOdontologo:
+        type: string
+      idPaciente:
+        type: string
+      idTurno:
+        type: integer
+    required:
+    - descripcionTurno
+    - fechaTurno
+    - idOdontologo
+    - idPaciente
+    type: object
+  handler.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  handler.Request:
+    properties:
+      apellidoOdontologo:
+        type: string
+      matriculaOdontologo:
+        type: string
+      nombreOdontologo:
+        type: string
+    type: object
 info:
-  contact: {}
-paths: {}
+  contact:
+    name: API Support
+  description: Reserva de turnos odontológicos
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
+  title: Api de turnos Odontologicos
+  version: "1.0"
+paths:
+  /odontologos:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo odontólogo con los datos proporcionados
+      parameters:
+      - description: Datos del odontólogo a crear
+        in: body
+        name: odontologo
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Odontologo'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Odontólogo creado correctamente
+          schema:
+            $ref: '#/definitions/domain.Odontologo'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Crear un nuevo odontólogo
+      tags:
+      - Odontólogos
+  /odontologos/{idOdontologo}:
+    delete:
+      consumes:
+      - application/json
+      description: Elimina un odontólogo por su ID
+      parameters:
+      - description: ID del odontólogo a eliminar
+        in: path
+        name: idOdontologo
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Odontólogo eliminado correctamente
+          schema:
+            type: string
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Eliminar un odontólogo por ID
+      tags:
+      - Odontólogos
+    get:
+      consumes:
+      - application/json
+      description: Obtiene un odontólogo por su ID
+      parameters:
+      - description: ID del odontólogo a obtener
+        in: path
+        name: idOdontologo
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Odontólogo obtenido correctamente
+          schema:
+            $ref: '#/definitions/domain.Odontologo'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Obtener un odontólogo por ID
+      tags:
+      - Odontólogos
+    patch:
+      consumes:
+      - application/json
+      description: Actualiza parcialmente un odontólogo por su ID con campos específicos
+      parameters:
+      - description: ID del odontólogo a actualizar
+        in: path
+        name: idOdontologo
+        required: true
+        type: integer
+      - description: Campos a actualizar
+        in: body
+        name: odontologo
+        required: true
+        schema:
+          $ref: '#/definitions/handler.Request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Odontólogo actualizado correctamente
+          schema:
+            $ref: '#/definitions/domain.Odontologo'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Error al actualizar el odontólogo
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Actualizar parcialmente un odontólogo por ID
+      tags:
+      - Odontólogos
+    put:
+      consumes:
+      - application/json
+      description: Actualiza un odontólogo por su ID con todos los campos
+      parameters:
+      - description: ID del odontólogo a actualizar
+        in: path
+        name: idOdontologo
+        required: true
+        type: integer
+      - description: Datos del odontólogo a actualizar
+        in: body
+        name: odontologo
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Odontologo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Odontólogo actualizado correctamente
+          schema:
+            $ref: '#/definitions/domain.Odontologo'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Error al actualizar el odontólogo
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Actualizar un odontólogo por ID
+      tags:
+      - Odontólogos
+  /pacientes:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo paciente
+      parameters:
+      - description: Datos del paciente a crear
+        in: body
+        name: paciente
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Paciente'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Paciente creado correctamente
+          schema:
+            $ref: '#/definitions/domain.Paciente'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Crear un nuevo paciente
+      tags:
+      - Pacientes
+  /pacientes/{idPaciente}:
+    delete:
+      consumes:
+      - application/json
+      description: Elimina un paciente por su ID
+      parameters:
+      - description: ID del paciente a eliminar
+        in: path
+        name: idPaciente
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: El paciente ha sido correctamente eliminado
+          schema:
+            type: string
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Eliminar un paciente por ID
+      tags:
+      - Pacientes
+    get:
+      consumes:
+      - application/json
+      description: Obtiene un paciente por su ID
+      parameters:
+      - description: ID del paciente a obtener
+        in: path
+        name: idPaciente
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Paciente obtenido correctamente
+          schema:
+            $ref: '#/definitions/domain.Paciente'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el paciente
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Obtener un paciente por ID
+      tags:
+      - Pacientes
+    patch:
+      consumes:
+      - application/json
+      description: Actualiza parcialmente un paciente por su ID con campos específicos
+      parameters:
+      - description: ID del paciente a actualizar
+        in: path
+        name: idPaciente
+        required: true
+        type: integer
+      - description: Campos a actualizar
+        in: body
+        name: paciente
+        required: true
+        schema:
+          $ref: '#/definitions/handler.Request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Paciente actualizado correctamente
+          schema:
+            $ref: '#/definitions/domain.Paciente'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Error al actualizar el paciente
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Actualizar parcialmente un paciente por ID
+      tags:
+      - Pacientes
+    put:
+      consumes:
+      - application/json
+      description: Actualiza un paciente por su ID con todos los campos
+      parameters:
+      - description: ID del paciente a actualizar
+        in: path
+        name: idPaciente
+        required: true
+        type: integer
+      - description: Datos del paciente a actualizar
+        in: body
+        name: paciente
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Paciente'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Paciente actualizado correctamente
+          schema:
+            $ref: '#/definitions/domain.Paciente'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el ID indicado
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "409":
+          description: Error al actualizar el paciente
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Actualizar un paciente por ID
+      tags:
+      - Pacientes
+  /turnos/{idTurno}:
+    delete:
+      consumes:
+      - application/json
+      description: Elimina un turno por su ID
+      parameters:
+      - description: ID del turno a eliminar
+        in: path
+        name: idTurno
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: El turno ha sido correctamente eliminado
+          schema:
+            type: string
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Eliminar un turno
+      tags:
+      - Turnos
+    get:
+      consumes:
+      - application/json
+      description: Retorna un turno dado su ID
+      parameters:
+      - description: ID del turno a obtener
+        in: path
+        name: idTurno
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Turno obtenido
+          schema:
+            $ref: '#/definitions/domain.Turno'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: No se encontró el turno
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Obtener turno por ID
+      tags:
+      - Turnos
+    patch:
+      consumes:
+      - application/json
+      description: Actualiza campos específicos de un turno por su ID
+      parameters:
+      - description: ID del turno a actualizar
+        in: path
+        name: idTurno
+        required: true
+        type: integer
+      - description: Campos a actualizar del turno
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handler.Request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Turno actualizado
+          schema:
+            $ref: '#/definitions/domain.Turno'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Actualizar campos específicos de un turno
+      tags:
+      - Turnos
+    post:
+      consumes:
+      - application/json
+      description: Retorna un turno dado su ID
+      parameters:
+      - description: ID del turno a obtener
+        in: path
+        name: idTurno
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Turno obtenido
+          schema:
+            $ref: '#/definitions/domain.Turno'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Obtener turno por ID
+      tags:
+      - Turnos
+    put:
+      consumes:
+      - application/json
+      description: Actualiza un turno existente por su ID
+      parameters:
+      - description: ID del turno a actualizar
+        in: path
+        name: idTurno
+        required: true
+        type: integer
+      - description: Información actualizada del turno
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Turno'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Turno actualizado
+          schema:
+            $ref: '#/definitions/domain.Turno'
+        "400":
+          description: Error de solicitud
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Actualizar turno
+      tags:
+      - Turnos
 swagger: "2.0"

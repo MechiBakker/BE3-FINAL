@@ -21,6 +21,15 @@ func NewTurnoHandler(s turno.Service) *turnoHandler {
 }
 
 // POST
+// @Summary Obtener turno por ID
+// @Description Retorna un turno dado su ID
+// @Tags Turnos
+// @Accept json
+// @Produce json
+// @Param idTurno path int true "ID del turno a obtener"
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/turnos/{idTurno} [post]
 func (h *turnoHandler) CreateTurno() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var turno domain.Turno
@@ -40,6 +49,15 @@ func (h *turnoHandler) CreateTurno() gin.HandlerFunc {
 }
 
 // GET
+// @Summary Obtener turno por ID
+// @Description Retorna un turno dado su ID
+// @Tags Turnos
+// @Accept json
+// @Produce json
+// @Param idTurno path int true "ID del turno a obtener"
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/turnos/{idTurno} [get]
 func (h *turnoHandler) GetTurnoByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("idTurno")
@@ -66,6 +84,16 @@ func validateFieldsTurno(turno *domain.Turno) (bool, error) {
 }
 
 // PUT
+// @Summary Actualizar turno
+// @Description Actualiza un turno existente por su ID
+// @Tags Turnos
+// @Accept json
+// @Produce json
+// @Param idTurno path int true "ID del turno a actualizar"
+// @Param body body domain.Turno true "Información actualizada del turno"
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/turnos/{idTurno} [put]
 func (h *turnoHandler) UpdateTurno() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
@@ -78,10 +106,6 @@ func (h *turnoHandler) UpdateTurno() gin.HandlerFunc {
 		_, err = h.s.GetTurnoByID(id)
 		if err != nil {
 			web.Failure(c, 404, errors.New("No se ha encontrado el ID indicado"))
-			return
-		}
-		if err != nil {
-			web.Failure(c, 409, err)
 			return
 		}
 		var turno domain.Turno
@@ -105,6 +129,16 @@ func (h *turnoHandler) UpdateTurno() gin.HandlerFunc {
 }
 
 // PATCH
+// @Summary Actualizar campos específicos de un turno
+// @Description Actualiza campos específicos de un turno por su ID
+// @Tags Turnos
+// @Accept json
+// @Produce json
+// @Param idTurno path int true "ID del turno a actualizar"
+// @Param body body Request true "Campos a actualizar del turno"
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/turnos/{idTurno} [patch]
 func (h *turnoHandler) UpdateTurnoForField() gin.HandlerFunc {
 	type Request struct {
 		DescripcionTurno string `json:"descripcionTurno,omitempty"`
@@ -146,6 +180,15 @@ func (h *turnoHandler) UpdateTurnoForField() gin.HandlerFunc {
 }
 
 // DELETE
+// @Summary Eliminar un turno
+// @Description Elimina un turno por su ID
+// @Tags Turnos
+// @Accept json
+// @Produce json
+// @Param idTurno path int true "ID del turno a eliminar"
+// @Success 200 {object} web.response 
+// @Failure 400 {object} web.errorResponse 
+// @Router /api/v1/turnos/{idTurno} [delete]
 func (h *turnoHandler) DeleteTurno() gin.HandlerFunc {
 
 	return func(c *gin.Context) {

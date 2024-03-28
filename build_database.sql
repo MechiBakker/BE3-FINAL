@@ -2,9 +2,9 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE="TRADITIONAL";
 
-DROP SCHEMA IF EXISTS my_db;
-CREATE SCHEMA my_db;
-USE my_db;
+DROP SCHEMA IF EXISTS turnos_odontologia;
+CREATE SCHEMA turnos_odontologia;
+USE turnos_odontologia;
 
 --
 -- Table structure for table `odontologos`

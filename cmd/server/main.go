@@ -10,14 +10,26 @@ import (
 	"github.com/MechiBakker/BE3-FINAL/internal/paciente"
 	"github.com/MechiBakker/BE3-FINAL/internal/turno"
 	"github.com/MechiBakker/BE3-FINAL/pkg/store"
+	"github.com/MechiBakker/BE3-FINAL/pkg/middleware"
+	"github.com/MechiBakker/BE3-FINAL/cmd/server/docs"
+	"log"
+
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title Api de turnos Odontologicos
+// @version 1.0
+// @description Reserva de turnos odontológicos
+// @termsOfService https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
+// @contact.name API Support
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
-
-	db, err := sql.Open("mysql", "root:root@/my_db")
+	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/turnos_odontologia")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 	err = db.Ping()
 	if err != nil {
@@ -29,7 +41,6 @@ func main() {
 	repo := odontologo.NewRepository(storage)
 	service := odontologo.NewService(repo)
 	odontologoHandler := handler.NewOdontologoHandler(service)
-
 	repoPaciente := paciente.NewRepository(storage)
 	servicePaciente := paciente.NewService(repoPaciente)
 	pacienteHandler := handler.NewPacienteHandler(servicePaciente)
@@ -37,8 +48,13 @@ func main() {
 	repoTurno := turno.NewRepository(storage)
 	serviceTurno := turno.NewService(repoTurno)
 	turnoHandler := handler.NewTurnoHandler(serviceTurno)
-
+	
 	engine := gin.Default()
+	engine.Use(gin.Recovery())
+	engine.Use(middleware.Logger())
+
+	docs.SwaggerInfo.Host = "localhost:8080"
+	engine.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	engine.SetTrustedProxies([]string{"127.0.0.1"})
 
@@ -48,28 +64,30 @@ func main() {
 	{
 		odontologos.POST("", odontologoHandler.CreateOdontologo())
 		odontologos.GET(":idOdontologo", odontologoHandler.GetOdontologoByID())
-		odontologos.PUT(":idOdontologo", odontologoHandler.UpdateOdontologo())
-		odontologos.PATCH(":idOdontologo", odontologoHandler.UpdateOdontologoForField())
-		odontologos.DELETE(":idOdontologo", odontologoHandler.DeleteOdontologo())
+		odontologos.PUT(":idOdontologo", middleware.Authentication(),odontologoHandler.UpdateOdontologo())
+		odontologos.PATCH(":idOdontologo", middleware.Authentication(),odontologoHandler.UpdateOdontologoForField())
+		odontologos.DELETE(":idOdontologo", middleware.Authentication(),odontologoHandler.DeleteOdontologo())
+	
 	}
 
 	pacientes := engine.Group("/api/v1/pacientes")
 	{
-		pacientes.POST("", pacienteHandler.CreatePaciente())
+		pacientes.POST("", middleware.Authentication(),pacienteHandler.CreatePaciente())
 		pacientes.GET(":idPaciente", pacienteHandler.GetPacienteByID())
-		pacientes.PUT(":idPaciente", pacienteHandler.UpdatePaciente())
-		pacientes.PATCH(":idPaciente", pacienteHandler.UpdatePacienteForField())
-		pacientes.DELETE(":idPaciente", pacienteHandler.DeletePaciente())
+		pacientes.PUT(":idPaciente", middleware.Authentication(),pacienteHandler.UpdatePaciente())
+		pacientes.PATCH(":idPaciente", middleware.Authentication(),pacienteHandler.UpdatePacienteForField())
+		pacientes.DELETE(":idPaciente", middleware.Authentication(),pacienteHandler.DeletePaciente())
+	
 
 	}
 
 	turnos := engine.Group("/api/v1/turnos")
 	{
-		turnos.POST("", turnoHandler.CreateTurno())
+		turnos.POST("", middleware.Authentication(),turnoHandler.CreateTurno())
 		turnos.GET(":idTurno", turnoHandler.GetTurnoByID())
-		turnos.PUT(":idTurno", turnoHandler.UpdateTurno())
-		turnos.PATCH(":idTurno", turnoHandler.UpdateTurnoForField())
-		turnos.DELETE(":idTurno", turnoHandler.DeleteTurno())
+		turnos.PUT(":idTurno", middleware.Authentication(),turnoHandler.UpdateTurno())
+		turnos.PATCH(":idTurno", middleware.Authentication(),turnoHandler.UpdateTurnoForField())
+		turnos.DELETE(":idTurno", middleware.Authentication(),turnoHandler.DeleteTurno())
 	}
 
 	engine.Run(":8080")

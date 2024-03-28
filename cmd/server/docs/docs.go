@@ -9,22 +9,743 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "https://developers.ctd.com.ar/es_ar/terminos-y-condiciones",
+        "contact": {
+            "name": "API Support"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/api/v1/odontologos": {
+            "post": {
+                "description": "Crea un nuevo odontólogo con los datos proporcionados",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Odontologos"
+                ],
+                "summary": "Crear un nuevo odontólogo",
+                "parameters": [
+                    {
+                        "description": "Datos del odontólogo a crear",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Odontologo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/odontologos/{idOdontologo}": {
+            "get": {
+                "description": "Obtiene un odontologo por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Odontologos"
+                ],
+                "summary": "Obtener un odontologo por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del odontólogo a obtener",
+                        "name": "idOdontologo",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Actualiza un odontólogo por su ID con todos los campos",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Odontologos"
+                ],
+                "summary": "Actualizar un odontólogo por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del odontólogo a actualizar",
+                        "name": "idOdontologo",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Datos del odontólogo a actualizar",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Odontologo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Elimina un odontólogo por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Odontologos"
+                ],
+                "summary": "Eliminar un odontólogo por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del odontólogo a eliminar",
+                        "name": "idOdontologo",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Actualiza parcialmente un odontólogo por su ID con campos específicos",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Odontologos"
+                ],
+                "summary": "Actualizar parcialmente un odontólogo por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del odontólogo a actualizar",
+                        "name": "idOdontologo",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Campos a actualizar",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.Request"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/pacientes": {
+            "post": {
+                "description": "Crea un nuevo paciente",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Crear un nuevo paciente",
+                "parameters": [
+                    {
+                        "description": "Datos del paciente a crear",
+                        "name": "paciente",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Paciente"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/pacientes/{idPaciente}": {
+            "get": {
+                "description": "Obtiene un paciente por su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Obtener un paciente por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del paciente a obtener",
+                        "name": "idPaciente",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Actualiza un paciente por su ID con todos los campos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Actualizar un paciente por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del paciente a actualizar",
+                        "name": "idPaciente",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Datos del paciente a actualizar",
+                        "name": "paciente",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Paciente"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Elimina un paciente por su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Eliminar un paciente por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del paciente a eliminar",
+                        "name": "idPaciente",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Actualiza parcialmente un paciente por su ID con campos específicos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Actualizar parcialmente un paciente por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del paciente a actualizar",
+                        "name": "idPaciente",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Campos a actualizar",
+                        "name": "paciente",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.Request"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/turnos/{idTurno}": {
+            "get": {
+                "description": "Retorna un turno dado su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Turnos"
+                ],
+                "summary": "Obtener turno por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del turno a obtener",
+                        "name": "idTurno",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Actualiza un turno existente por su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Turnos"
+                ],
+                "summary": "Actualizar turno",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del turno a actualizar",
+                        "name": "idTurno",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Información actualizada del turno",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Turno"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Retorna un turno dado su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Turnos"
+                ],
+                "summary": "Obtener turno por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del turno a obtener",
+                        "name": "idTurno",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Elimina un turno por su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Turnos"
+                ],
+                "summary": "Eliminar un turno",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del turno a eliminar",
+                        "name": "idTurno",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Actualiza campos específicos de un turno por su ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Turnos"
+                ],
+                "summary": "Actualizar campos específicos de un turno",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del turno a actualizar",
+                        "name": "idTurno",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Campos a actualizar del turno",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.Request"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/web.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.errorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.Odontologo": {
+            "type": "object",
+            "required": [
+                "apellidoOdontologo",
+                "matriculaOdontologo",
+                "nombreOdontologo"
+            ],
+            "properties": {
+                "apellidoOdontologo": {
+                    "type": "string"
+                },
+                "idOdontologo": {
+                    "type": "integer"
+                },
+                "matriculaOdontologo": {
+                    "type": "string"
+                },
+                "nombreOdontologo": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.Paciente": {
+            "type": "object",
+            "required": [
+                "apellidoPaciente",
+                "dniPaciente",
+                "domicilioPaciente",
+                "fechaDeAltaPaciente",
+                "nombrePaciente"
+            ],
+            "properties": {
+                "apellidoPaciente": {
+                    "type": "string"
+                },
+                "dniPaciente": {
+                    "type": "string"
+                },
+                "domicilioPaciente": {
+                    "type": "string"
+                },
+                "fechaDeAltaPaciente": {
+                    "type": "string"
+                },
+                "idPaciente": {
+                    "type": "integer"
+                },
+                "nombrePaciente": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.Turno": {
+            "type": "object",
+            "required": [
+                "descripcionTurno",
+                "fechaTurno",
+                "idOdontologo",
+                "idPaciente"
+            ],
+            "properties": {
+                "descripcionTurno": {
+                    "type": "string"
+                },
+                "fechaTurno": {
+                    "type": "string"
+                },
+                "idOdontologo": {
+                    "type": "string"
+                },
+                "idPaciente": {
+                    "type": "string"
+                },
+                "idTurno": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.Request": {
+            "type": "object",
+            "properties": {
+                "apellidoOdontologo": {
+                    "type": "string"
+                },
+                "matriculaOdontologo": {
+                    "type": "string"
+                },
+                "nombreOdontologo": {
+                    "type": "string"
+                }
+            }
+        },
+        "web.errorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "web.response": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0",
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Api de turnos Odontologicos",
+	Description:      "Reserva de turnos odontológicos",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

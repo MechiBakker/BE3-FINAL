@@ -1,6 +1,6 @@
 package store
 
-import "github.com/MechiBakker/BE3-FINALO/internal/domain"
+import "github.com/MechiBakker/BE3-FINAL/internal/domain"
 
 type StoreInterface interface {
 	Read(id int) (domain.Odontologo, error)
